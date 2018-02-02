@@ -1,1 +1,1 @@
-console.log('Hello World, This time Travis should run the build');
+console.log('Hello World');
