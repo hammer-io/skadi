@@ -29,7 +29,9 @@
     "url": "https://github.com/hammer-io/skadi/issues"
   },
   "homepage": "https://github.com/hammer-io/skadi#readme",
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.17.1"
+  },
   "devDependencies": {
     "@types/mocha": "^2.2.47",
     "babel-cli": "^6.26.0",
