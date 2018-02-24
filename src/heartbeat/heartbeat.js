@@ -1,10 +1,9 @@
-import axios from 'axios';
+const axios = require('axios');
 
 const ONE_HUNDRED_MILLISECONDS = 100;
 const ONE_SECOND = 1000;
-const HEARTBEAT_ENDPOINT = '/api/v1/heartbeats';
 
-let id = '';
+let apiKey = '';
 let serverUrl = '';
 let interval = ONE_SECOND;
 
@@ -18,14 +17,17 @@ let interval = ONE_SECOND;
 async function heartbeat() {
   try {
     const response = await axios.post(
-      `${serverUrl}${HEARTBEAT_ENDPOINT}`,
-      { id },
-      { headers: { 'Content-Type': 'application/json' } }
+      `${serverUrl}`,
+      { },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`
+        }
+      }
     );
-    console.log(response.data);
     if (response.data !== 'success') {
-      console.log('An error probably occurred when trying to' +
-      ` post a heartbeat to ${serverUrl}${HEARTBEAT_ENDPOINT}.  Returned Data: ${response.data}`);
+      console.log(`Heartbeat to ${serverUrl} was not successful.  Returned Data: ${response.data}`);
     }
   } catch (err) {
     console.log(err);
@@ -41,9 +43,9 @@ async function heartbeat() {
  *
  * @param options - The options object
  */
-export default function setHeartbeat(options) {
-  if (options.id) {
-    ({ id } = options);
+const setHeartbeat = function (options) {
+  if (options.apiKey) {
+    ({ apiKey } = options);
   } else {
     throw new Error('An id for this application must be specified in skadiConfig.json.  For more information,' +
       'check out https://github.com/hammer-io/skadi.')
@@ -68,3 +70,5 @@ export default function setHeartbeat(options) {
   heartbeat();
   setInterval(heartbeat, interval);
 }
+
+module.exports = setHeartbeat;
