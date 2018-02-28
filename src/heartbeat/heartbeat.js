@@ -1,11 +1,6 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 
-const ONE_HUNDRED_MILLISECONDS = 100;
-const ONE_SECOND = 1000;
-
-let apiKey = '';
-let serverUrl = '';
-let interval = ONE_SECOND;
+let config = {};
 
 /**
  * A function that posts a heartbeat containing only its id to the server. If an error occurs when
@@ -14,61 +9,30 @@ let interval = ONE_SECOND;
  *
  * @returns {Promise<void>} - The promise
  */
-async function heartbeat() {
+async function run() {
   try {
-    const response = await axios.post(
-      `${serverUrl}`,
-      { },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`
-        }
+    fetch(config.heartbeatUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${config.apiKey}`
       }
-    );
-    if (response.data !== 'success') {
-      console.log(`Heartbeat to ${serverUrl} was not successful.  Returned Data: ${response.data}`);
-    }
+    });
   } catch (err) {
     console.log(err);
   }
 }
 
 /**
- * Sets the configurable features of the heartbeat.  The options object must contain an id for
- * the project and the url of the Koma server.  Other configurable options are the interval at
- * which the heartbeat repeats, which must be at least 100 milliseconds and is specified in
- * milliseconds. If the interval is not set, it defaults to 1 second. Once the options have been
- * set, the heartbeat function is run, then set to run repeatedly for the specified interval.
+ * Entry point for the heartbeat collection. It intializes the run and sets the interval for how
+ * often the heartbeats should be sent.
  *
- * @param options - The options object
+ * @param newOptions the options to configure os data collection
  */
-const setHeartbeat = function (options) {
-  if (options.apiKey) {
-    ({ apiKey } = options);
-  } else {
-    throw new Error('An id for this application must be specified in skadiConfig.json.  For more information,' +
-      'check out https://github.com/hammer-io/skadi.')
-  }
-
-  if (options.interval) {
-    if (Number.isNaN(options.interval)) {
-      throw new Error('The interval that the heartbeat should wait for must be a number');
-    }
-    if (options.interval < ONE_HUNDRED_MILLISECONDS) {
-      throw new Error('The interval that the heartbeat should wait must be more than one minute')
-    }
-    ({ interval } = options);
-  }
-
-  if (options.serverUrl) {
-    ({ serverUrl } = options);
-  } else {
-    throw new Error('A serverUrl for this application must be specified in skadiConfig.json.  For more information,' +
-      'check out https://github.com/hammer-io/skadi.')
-  }
-  heartbeat();
-  setInterval(heartbeat, interval);
+const heartbeat = function (newOptions) {
+  config = newOptions;
+  run();
+  setInterval(run, newOptions.interval);
 }
 
-module.exports = setHeartbeat;
+module.exports = heartbeat;
