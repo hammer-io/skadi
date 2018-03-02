@@ -8,7 +8,9 @@ Create a `.skadiconfig.json` file in the directory where you are launching your 
 from. 
 ```json
 {
+    "interval": "<optional interval in millisecnods>",
     "apiKey": "<apiKey from koma>",
-    "serverUrl": "<server url to koma>"
+    "heartbeatUrl": "<server url to koma heartbeats>",
+    "osDataUrl": "<server url to koma os data>"
 }
 ```
