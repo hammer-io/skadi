@@ -10,6 +10,7 @@ let config = {};
  * @returns {Promise<void>} - The promise
  */
 async function run() {
+  console.log('heartbeat');
   try {
     fetch(config.heartbeatUrl, {
       method: 'POST',

@@ -8,6 +8,7 @@ let config = {};
  * collecting the information, then sends the data.
  */
 async function run() {
+  console.log('osdata');
   const freeMemory = os.freemem();
   const totalMemory = os.totalmem();
   const memoryUsed = freeMemory / totalMemory;
