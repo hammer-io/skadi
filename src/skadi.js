@@ -5,12 +5,13 @@ const setData = require('./osdata/osdata');
 const ONE_HUNDRED_MILLISECONDS = 100;
 const ONE_SECOND = 1000;
 
-function skadi() {
+let config = {};
+function prepare() {
   if (!fs.existsSync(`${process.cwd()}/.skadiconfig.json`)) {
     throw new Error('Missing .skadiconfig.json file');
   }
 
-  const config = JSON.parse(fs.readFileSync(`${process.cwd()}/.skadiconfig.json`));
+  config = JSON.parse(fs.readFileSync(`${process.cwd()}/.skadiconfig.json`));
 
   if (config.interval) {
     if (Number.isNaN(config.interval)) {
@@ -27,15 +28,22 @@ function skadi() {
   if (!config.apiKey) {
     throw new Error('Missing API Key in .skadiconfig.json');
   }
+}
 
+function heartbeat() {
+  prepare();
   if (config.heartbeatUrl) {
     setHeartbeat(config);
   }
+}
 
+function osdata() {
   if (config.osDataUrl) {
     setData(config);
   }
 }
 
-module.exports = skadi;
-
+module.exports = {
+  heartbeat,
+  osdata
+};
