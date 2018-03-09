@@ -11,6 +11,38 @@ from.
     "interval": "<optional interval in millisecnods>",
     "apiKey": "<apiKey from koma>",
     "heartbeatUrl": "<server url to koma heartbeats>",
-    "osDataUrl": "<server url to koma os data>"
+    "osDataUrl": "<server url to koma os data>",
+    "httpDataUrl": "<server url to koma http data>"
 }
+```
+
+## Usage
+```javascript
+const skadi = require('skadi')
+```
+
+### Heartbeat
+With `heartbeatUrl` in the `.skadiconfig.json` file, add the following snippet after your imports.
+```javascript
+skadi.heartbeat();
+```
+
+### OS Data
+With `osDataUrl` in the `.skadiconfig.json` file, add the following snippet after your imports.
+```javascript
+skadi.osdata();
+```
+### HTTP Data
+To capture incoming requests, add the following snippet before your routes.
+```javascript
+app.use((req, res, next) => {
+  skadi.captureRequestData(req, res, next);
+});
+```
+
+To capture outgoing responses, add the following snippet after your routes.
+```javascript
+app.use((req, res, next) => {
+  skadi.captureResponseData(req, res, next);
+});
 ```

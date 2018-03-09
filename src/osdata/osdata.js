@@ -8,7 +8,6 @@ let config = {};
  * collecting the information, then sends the data.
  */
 async function run() {
-  console.log('osdata');
   const freeMemory = os.freemem();
   const totalMemory = os.totalmem();
   const memoryUsed = freeMemory / totalMemory;
@@ -22,18 +21,14 @@ async function run() {
     timestamp
   };
 
-  try {
-    fetch(config.osDataUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${config.apiKey}`
-      },
-      body: JSON.stringify(memoryData)
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  fetch(config.osDataUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${config.apiKey}`
+    },
+    body: JSON.stringify(memoryData)
+  });
 }
 
 /**
