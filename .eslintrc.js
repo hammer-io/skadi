@@ -6,7 +6,6 @@ module.exports = {
   "rules": {
     "linebreak-style": "off",
     "comma-dangle": "off",
-    "no-console": "off",
     "consistent-return": "off",
     "semi": "off"
   },

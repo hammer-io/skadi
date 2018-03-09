@@ -10,18 +10,13 @@ let config = {};
  * @returns {Promise<void>} - The promise
  */
 async function run() {
-  console.log('heartbeat');
-  try {
-    fetch(config.heartbeatUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${config.apiKey}`
-      }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  fetch(config.heartbeatUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${config.apiKey}`
+    }
+  });
 }
 
 /**
