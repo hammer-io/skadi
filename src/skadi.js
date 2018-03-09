@@ -1,6 +1,7 @@
 const fs = require('fs');
 const setHeartbeat = require('./heartbeat/heartbeat');
 const setData = require('./osdata/osdata');
+const httpdata = require('./httpdata/httpdata');
 
 const ONE_HUNDRED_MILLISECONDS = 100;
 const ONE_SECOND = 1000;
@@ -43,7 +44,21 @@ function osdata() {
   }
 }
 
+function captureResponseData(req, res, next) {
+  prepare();
+  httpdata.captureRequestData(req, config);
+  next();
+}
+
+function captureRequestData(req, res, next) {
+  prepare();
+  httpdata.captureResponseData(res, config);
+  next();
+}
+
 module.exports = {
   heartbeat,
-  osdata
+  osdata,
+  captureResponseData,
+  captureRequestData
 };
