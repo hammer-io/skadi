@@ -44,16 +44,14 @@ function osdata() {
   }
 }
 
-function captureResponseData(req, res, next) {
+function captureResponseData(req, res) {
   prepare();
-  httpdata.captureRequestData(req, config);
-  next();
+  httpdata.captureResponseData(req, res, config);
 }
 
-function captureRequestData(req, res, next) {
+function captureRequestData(req) {
   prepare();
-  httpdata.captureResponseData(res, config);
-  next();
+  httpdata.captureRequestData(req);
 }
 
 module.exports = {

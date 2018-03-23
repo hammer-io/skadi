@@ -11,30 +11,23 @@ async function sendHttpData(data, config) {
   })
 }
 
-async function captureRequestData(req, config) {
-  const data = {
-    url: req.url,
-    method: req.method,
-    type: 'request',
-    timestamp: Date.now(),
-    size: 0
-  }
-
+async function captureRequestData(req) {
+  req.skadi = {};
+  req.skadi.timestamp = Date.now();
+  req.skadi.size = 0; // iniitalize to zero
   if (req.body) {
-    data.size = Buffer.byteLength(req.body);
+    req.skadi.size = Buffer.byteLength(req.body);
   }
-
-  await sendHttpData(data, config);
 }
 
-async function captureResponseData(res, config) {
+async function captureResponseData(req, res, config) {
   const data = {
     timestamp: Date.now(),
-    status: res.status,
+    responseTime: Date.now() - req.skadi.timestamp,
+    status: res.statusCode,
     url: res.req.url,
     method: res.req.method,
-    type: 'response',
-    size: null
+    requestSize: req.skadi.size,
   }
 
   await sendHttpData(data, config);
