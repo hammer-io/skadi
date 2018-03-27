@@ -15,7 +15,8 @@ async function run() {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${config.apiKey}`
-    }
+    },
+    body: JSON.stringify({ interval: config.interval })
   });
 }
 
