@@ -34,22 +34,34 @@ function prepare() {
 function heartbeat() {
   prepare();
   if (config.heartbeatUrl) {
-    setHeartbeat(config);
+    setHeartbeat(config)
+  } else {
+    throw new Error('Missing heartbeatUrl in .skadiconfig.json');
   }
 }
 
 function osdata() {
   if (config.osDataUrl) {
     setData(config);
+  } else {
+    throw new Error('Missing osDataUrl in .skadiconfig.json');
   }
 }
 
 function captureResponseData(req, res) {
+  if (!config.httpDataUrl) {
+    throw new Error('Missing httpDataUrl in .skadiconfig.json');
+  }
+
   prepare();
   httpdata.captureResponseData(req, res, config);
 }
 
 function captureRequestData(req) {
+  if (!config.httpDataUrl) {
+    throw new Error('Missing httpDataUrl in .skadiconfig.json');
+  }
+
   prepare();
   httpdata.captureRequestData(req);
 }
