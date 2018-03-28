@@ -1,5 +1,5 @@
 {
-  "name": "skadi",
+  "name": "skadi-hammerio",
   "version": "0.0.1",
   "description": "Utility to send heartbeat and data information from express.",
   "scripts": {
