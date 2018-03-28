@@ -36,13 +36,15 @@ skadi.osdata();
 To capture incoming requests, add the following snippet before your routes.
 ```javascript
 app.use((req, res, next) => {
-  skadi.captureRequestData(req, res, next);
+  skadi.captureRequestData(req);
+  next();
 });
+
 ```
 
 To capture outgoing responses, add the following snippet after your routes.
 ```javascript
 app.use((req, res, next) => {
-  skadi.captureResponseData(req, res, next);
+  skadi.captureResponseData(req, res);
 });
 ```
