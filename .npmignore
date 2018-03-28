@@ -1,0 +1,9 @@
+test/
+.eslintignore
+.eslintrc.js
+.gitignore
+.skadiconfig.json
+.travis.yml
+CONTRIBUTING.md
+.idea/
+
