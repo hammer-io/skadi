@@ -4,6 +4,9 @@
 # skadi
 Utility to send heartbeat and data information from express. 
 
+## Install
+`npm install --save skadi-hammerio`
+
 ## Setup
 Create a `.skadiconfig.json` file in the directory where you are launching your application 
 from. 
@@ -19,7 +22,7 @@ from.
 
 ## Usage
 ```javascript
-const skadi = require('skadi')
+const skadi = require('skadi-hammerio')
 ```
 
 ### Heartbeat
